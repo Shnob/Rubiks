@@ -14,21 +14,37 @@ colors = [
     (0, 0, 0)
 ]
 
-b = 1/2
+a = 1 - 1/2.5
+b = 1/2.5
 
 quadDic = {
-    "-0" : (),
-    "-1" : (),
-    "-2" : (),
-    "+1" : (),
-    "+2" : (),
-    "+3" : ()
+    "-0" : ((a, -b, -b), (a, b, -b), (a, b, b), (a, -b, b)), #((a, -b, -b), (a, b, -b), (a, b, b), (a, -b, b))
+    "-1" : ((-b, a, -b), (b, a, -b), (b, a, b), (-b, a, b)),
+    "-2" : ((-b, -b, a), (b, -b, a), (b, b, a), (-b, b, a)),
+    "+0" : ((-a, -b, -b), (-a, b, -b), (-a, b, b), (-a, -b, b)),
+    "+1" : ((-b, -a, -b), (b, -a, -b), (b, -a, b), (-b, -a, b)),
+    "+2" : ((-b, -b, -a), (b, -b, -a), (b, b, -a), (-b, b, -a))
 }
 
+del a
 del b
 
 def quad(coords):
-    pass
+    n = None
+    if coords[0] == 2:
+        n = "+0"
+    elif coords[0] == -2:
+        n = "-0"
+    elif coords[1] == 2:
+        n = "+1"
+    elif coords[1] == -2:
+        n = "-1"
+    elif coords[2] == 2:
+        n = "+2"
+    elif coords[2] == -2:
+        n = "-2"
+
+    return quadDic[n]
 
 def calcPoint(coords, dispInfo):
 
@@ -99,6 +115,7 @@ def renderCube(screen, cube, dispInfo):
     points = []
     for p in cube.state:
         info = [[], []]
+        
         for c in range(4):
             coords = list(map(int, p.split(',')))
             '''
@@ -115,7 +132,11 @@ def renderCube(screen, cube, dispInfo):
                 else:
                     coords[1] += 1/2
             '''
-            quad(coords)
+            q = quad(coords)
+
+            coords[0] += q[c][0]
+            coords[1] += q[c][1]
+            coords[2] += q[c][2]
             
             cal = calcPoint(coords, dispInfo)
             info[0].append(cal[0])
@@ -142,7 +163,7 @@ if __name__ == "__main__":
     #cube.rotIns("F L R2")
 
 
-    dispInfo = [8, [0, 0, 0], 450]
+    dispInfo = [8, [0, 0, 0], 600]
     targDisp = [0, 0]
 
     while True:
