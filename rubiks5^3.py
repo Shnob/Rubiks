@@ -1,5 +1,5 @@
 import pygame, sys
-import d3s3
+import d3s5
 import numpy as np
 
 mapp = lambda x, a, b, c, d : (x-a)/(b-a) * (d-c) + c
@@ -32,17 +32,17 @@ del b
 
 def quad(coords):
     n = None
-    if coords[0] == 2:
+    if coords[0] == 3:
         n = "+0"
-    elif coords[0] == -2:
+    elif coords[0] == -3:
         n = "-0"
-    elif coords[1] == 2:
+    elif coords[1] == 3:
         n = "+1"
-    elif coords[1] == -2:
+    elif coords[1] == -3:
         n = "-1"
-    elif coords[2] == 2:
+    elif coords[2] == 3:
         n = "+2"
-    elif coords[2] == -2:
+    elif coords[2] == -3:
         n = "-2"
 
     return quadDic[n]
@@ -157,14 +157,14 @@ if __name__ == "__main__":
     pygame.display.set_caption("Rubiks")
     screen = pygame.display.set_mode((500, 500))
 
-    cube = d3s3.Rubiks()
+    cube = d3s5.Rubiks()
 
     #cube.rotNot("f")
     #cube.rotIns("U2 L U F' D U B' R' F2 U")
     #cube.rotIns("F L R2")
 
 
-    dispInfo = [8, [0, 0, 0], 600]
+    dispInfo = [8, [0, 0, 0], 400]
     targDisp = [0, 0]
 
     while True:
